@@ -38,7 +38,7 @@ var bio = {
   "name": "ryan kwon",
   "role": "Interative Developer",
   "welcomeMessage": "Hellow World!",
-  "biopic": "./images/img_3495.jpg",
+  "biopic": "./images/fry.jpg",
   "contacts": {
     "mobile": "010-4229-7858",
     "email": "zun0323@gmail.com",
@@ -84,30 +84,44 @@ var education = {
 var formattedName = HTMLheaderName.replace("%data%", bio.name);
 $("#header").append(formattedName);
 
+var formattedRole = HTMLheaderRole.replace("%data%", bio.role);
+$("#header").append(formattedRole);
+
+$.each(bio.contacts, function(contact, data){
+  var formattedContacts = HTMLcontactGeneric.replace("%contact%", contact).replace("%data%", data);
+  $("#topContacts").append(formattedContacts);
+});
+
+$("#topContacts").insertAfter("#header > hr");
+
+var formattedBioPic = HTMLbioPic.replace("%data%", bio.biopic);
+$("#header").append(formattedBioPic);
+
+var formattedWelcomeMsg = HTMLwelcomeMsg.replace("%data%", bio.welcomeMessage);
+$("#header").append(formattedWelcomeMsg);
+
 if(bio.skills.length > 0) {
   $("#header").append(HTMLskillsStart);
-  for(item in bio.skills) {
-    $("#skills").append(HTMLskills.replace("%data%", bio.skills[item]));
-  }
+  bio.skills.forEach(function(item) {
+    var formattedSkill = HTMLskills.replace("%data%", item);
+    $("#skills").append(formattedSkill);
+  });
 }
 
-function displaywork() {
-  for(item in work.jobs) {
-    $("#workExperience").append(HTMLworkStart);
+work.jobs.forEach(function(item) {
+  $("#workExperience").append(HTMLworkStart);
 
-    var formattedWorkEmployer = HTMLworkEmployer.replace("%data%", work.jobs[item].employer);
-    var formattedWorkTitle = HTMLworkTitle.replace("%data%", work.jobs[item].title);
-    var formattedWorkDates = HTMLworkDates.replace("%data%", work.jobs[item].dates);
-    var formattedWorkDescription = HTMLworkDescription.replace("%data%", work.jobs[item].description);
+  var formattedWorkEmployer = HTMLworkEmployer.replace("%data%", item.employer);
+  var formattedWorkTitle = HTMLworkTitle.replace("%data%", item.title);
+  var formattedWorkDates = HTMLworkDates.replace("%data%", item.dates);
+  var formattedWorkDescription = HTMLworkDescription.replace("%data%", item.description);
 
-    var formattedAllWorkData = formattedWorkEmployer + formattedWorkTitle + formattedWorkDates + formattedWorkDescription;
+  var formattedAllWorkData = formattedWorkEmployer + formattedWorkTitle + formattedWorkDates + formattedWorkDescription;
 
-    $(".work-entry:last").append(formattedAllWorkData);
-  }
-}
+  $(".work-entry:last").append(formattedAllWorkData);
+});
 
-displaywork();
-
+//---------------------------------------------------------------------------------------------
 function inName(name) {
   name.trim().split(" ");
   name[1] = name[1].toUpperCase;
